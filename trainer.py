@@ -38,14 +38,15 @@ def flash_cards():
 
     # start game
     while deck:
-        clear_terminal()
         card = deck.pop()
+        # show the card
+        clear_terminal()
         print card
         start_time = datetime.datetime.now()
         result = raw_input()
         if result:
             # if user entered input, that means they didn't know the card
-            # so show them the word
+            # so show them the word for a half second
             clear_terminal()
             print nato_dict[card]
             time.sleep(0.5)
