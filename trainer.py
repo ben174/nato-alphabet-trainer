@@ -67,7 +67,7 @@ def flash_cards():
     # output results
     print 'Letters which need work:'
     for letter in missed_letters:
-        print '  %s: Missed' % letter
+        print '  %s: Missed (%s)' % (letter, nato_dict[letter])
     for score in bad_scores:
         print '  %s: %s sec' % (score, round(scores[score].total_seconds(), 2))
     print
