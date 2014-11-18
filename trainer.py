@@ -37,7 +37,6 @@ def flash_cards():
         start_time = datetime.datetime.now()
         result = raw_input()
         if result:
-            scores[card] = 0
             clear_terminal()
             print nato_dict[card]
             time.sleep(0.5)
@@ -45,25 +44,28 @@ def flash_cards():
             scores[card] = datetime.datetime.now() - start_time
         clear_terminal()
         prev_card = card
-        #print nato_dict[card]
         if not deck:
             # break here, show score
-            print scores
             break
     game_time = datetime.datetime.now() - game_start_time
-    print 'Deck finished in %s seconds' % timedelta_to_seconds(game_time)
-    sorted_scores = sorted(scores.items(), key=operator.itemgetter(1))
     # get scores higher than one second
     bad_scores = {k: v for k, v in scores.iteritems() if v > datetime.timedelta(seconds=1)}
     # get scores quicker than quarter second
-    good_scores = {k: v for k, v in scores.iteritems() if v < datetime.timedelta(seconds=0.25)}
+    good_scores = {k: v for k, v in scores.iteritems() if v < datetime.timedelta(seconds=0.75)}
+    missed_letters = [l for l in list(string.ascii_uppercase) if l not in scores]
     print 'Your best letters:'
     for score in good_scores:
         print '%s: %s second(s)' % (score, scores[score])
     print
     print 'Letters which need work:'
+    for letter in missed_letters:
+        print '%s: Missed' % letter
     for score in bad_scores:
         print '%s: %s second(s)' % (score, scores[score])
+    print
+    print 'Deck finished in %s seconds' % timedelta_to_seconds(game_time)
+    
+
 
 def timedelta_to_seconds(td):
     ''' Turn timedelta into 0.000 string.
