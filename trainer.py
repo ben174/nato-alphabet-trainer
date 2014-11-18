@@ -8,10 +8,17 @@ import operator
 
 
 nato_dict = {}
-
 scores = {}
 
+
 def main():
+    ''' A simple flaschard game to help learn nato phonetic alphabet.
+    When run, a letter is displayed. If you know it's nato word, hit enter. If
+    you don't know it, hit any key and enter. The answer is then displayed.
+    When you've completed the deck, a score is displayed - along with any
+    letters which need work.
+
+    '''
     read_alphabet()
     flash_cards()
 
@@ -27,8 +34,6 @@ def flash_cards():
     deck = []
     deck = list(string.ascii_uppercase)
     random.shuffle(deck)
-    prev_card = None
-    print 'Game Start'
     game_start_time = datetime.datetime.now()
     while True:
         clear_terminal()
@@ -37,42 +42,28 @@ def flash_cards():
         start_time = datetime.datetime.now()
         result = raw_input()
         if result:
+            # if user entered input, that means they didn't know the card
+            # so show them the word
             clear_terminal()
             print nato_dict[card]
             time.sleep(0.5)
         else:
             scores[card] = datetime.datetime.now() - start_time
         clear_terminal()
-        prev_card = card
         if not deck:
             # break here, show score
             break
     game_time = datetime.datetime.now() - game_start_time
-    # get scores higher than one second
     bad_scores = {k: v for k, v in scores.iteritems() if v > datetime.timedelta(seconds=1)}
-    # get scores quicker than quarter second
     good_scores = {k: v for k, v in scores.iteritems() if v < datetime.timedelta(seconds=0.75)}
     missed_letters = [l for l in list(string.ascii_uppercase) if l not in scores]
-    print 'Your best letters:'
-    for score in good_scores:
-        print '%s: %s second(s)' % (score, scores[score])
-    print
     print 'Letters which need work:'
     for letter in missed_letters:
-        print '%s: Missed' % letter
+        print '  %s: Missed' % letter
     for score in bad_scores:
-        print '%s: %s second(s)' % (score, scores[score])
+        print '  %s: %s sec' % (score, round(scores[score].total_seconds(), 2))
     print
-    print 'Deck finished in %s seconds' % timedelta_to_seconds(game_time)
-    
-
-
-def timedelta_to_seconds(td):
-    ''' Turn timedelta into 0.000 string.
-
-    '''
-    return '%s.%s' % (td.seconds, td.microseconds)
-
+    print 'Finished in %s seconds' % round(game_time.total_seconds(), 2)
 
 
 def clear_terminal():
