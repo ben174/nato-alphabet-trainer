@@ -35,7 +35,9 @@ def flash_cards():
     deck = list(string.ascii_uppercase)
     random.shuffle(deck)
     game_start_time = datetime.datetime.now()
-    while True:
+
+    # start game
+    while deck:
         clear_terminal()
         card = deck.pop()
         print card
@@ -48,15 +50,17 @@ def flash_cards():
             print nato_dict[card]
             time.sleep(0.5)
         else:
+            # calculate time and append to scores
             scores[card] = datetime.datetime.now() - start_time
         clear_terminal()
-        if not deck:
-            # break here, show score
-            break
+
+    # game finished, calculate results
     game_time = datetime.datetime.now() - game_start_time
     bad_scores = {k: v for k, v in scores.iteritems() if v > datetime.timedelta(seconds=1)}
     good_scores = {k: v for k, v in scores.iteritems() if v < datetime.timedelta(seconds=0.75)}
     missed_letters = [l for l in list(string.ascii_uppercase) if l not in scores]
+
+    # output results
     print 'Letters which need work:'
     for letter in missed_letters:
         print '  %s: Missed' % letter
