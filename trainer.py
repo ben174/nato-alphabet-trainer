@@ -31,27 +31,30 @@ def read_alphabet():
 
 
 def flash_cards():
-    deck = []
+    # create a randomly shuffled deck of all letters
     deck = list(string.ascii_uppercase)
     random.shuffle(deck)
-    game_start_time = datetime.datetime.now()
 
     # start game
+    game_start_time = datetime.datetime.now()
     while deck:
         card = deck.pop()
+
         # show the card
         clear_terminal()
         print card
+
+        # start timing and wait for their answer
         start_time = datetime.datetime.now()
         result = raw_input()
         if result:
             # if user entered input, that means they didn't know the card
-            # so show them the word for a half second
+            # so show them the word for a half second. don't record a score
             clear_terminal()
             print nato_dict[card]
             time.sleep(0.5)
         else:
-            # calculate time and append to scores
+            # calculate response time and append to scores
             scores[card] = datetime.datetime.now() - start_time
         clear_terminal()
 
