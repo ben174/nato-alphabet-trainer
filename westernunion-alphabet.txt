@@ -1,0 +1,26 @@
+A   Adams
+B   Boston
+C   Chicago
+D   Denver
+E   Easy
+F   Frank
+G   George
+H   Henry
+I   Ida
+J   John
+K   King
+L   Lincoln
+M   Mary
+N   New York
+O   Ocean
+P   Peter
+Q   Queen
+R   Roger
+S   Sugar
+T   Thomas
+U   Union
+V   Victor
+W   William
+X   X-ray
+Y   Young
+Z   Zero
